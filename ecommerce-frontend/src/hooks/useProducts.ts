@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/product";
-import { mockProducts } from "../data/mockProducts";
+import { fetchProducts } from "../api/product";
 
 interface UseProductsResult {
   products: Product[];
@@ -11,20 +11,23 @@ interface UseProductsResult {
 export function useProducts(category: string): UseProductsResult {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // simulate API delay
-    const timer = setTimeout(() => {
-      if (category === "All") {
-        setProducts(mockProducts);
-      } else {
-        setProducts(mockProducts.filter(p => p.category === category));
-      }
-      setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
+    setLoading(true);
+    setError(null);
+    
+    // Call your real backend API!
+    fetchProducts(category)
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching products:", err);
+        setError("Failed to load products.");
+        setLoading(false);
+      });
   }, [category]);
 
   return { products, loading, error };
