@@ -39,7 +39,7 @@ A complete full-stack e-commerce product catalog featuring a React frontend and 
 
 To run this full-stack application locally, you will need to run both the backend and frontend servers simultaneously in separate terminal windows.
 
-### 1. Backend Setup
+### 1. Frontend & Backend Setup 
 Open a terminal and navigate to the `backend` directory:
 ```bash
 cd backend
